@@ -42,6 +42,13 @@ app.post("/book/new", async (req, res) => {
     res.redirect("/");
 });
 
+// 本詳細ページのルーティング
+app.get("/books/:id", async (req, res) => {
+    const { id } = req.params;
+    const book = await Book.findById(id);
+    res.render("books/show", { book });
+});
+
 app.listen(PORT, () => {
     console.log("ポート8081でサーバー起動");
 });

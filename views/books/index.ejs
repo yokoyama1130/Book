@@ -11,7 +11,7 @@
     <ul>
         <% for (let book of books) { %>
             <li>
-                <%= book.name %>
+                <a href="/books/<%= book._id %>"><%= book.name %></a>
             </li>
         <% } %>
     </ul>
