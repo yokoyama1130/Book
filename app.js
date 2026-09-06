@@ -16,7 +16,7 @@ mongoose.connect('mongodb://localhost:27017/books')
 app.set("view engine", "ejs");
 
 app.get("/", (req, res) => {
-    res.send("確認");
+    res.render("books/index");
 });
 
 app.listen(PORT, () => {
