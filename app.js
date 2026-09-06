@@ -3,6 +3,7 @@ const app = express();
 const PORT = 8081;
 const Book = require("./models/books");
 const path = require("path");
+const methodOverride = require("method-override");
 
 const mongoose = require("mongoose");
 
@@ -19,6 +20,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({extended: true}));
+app.use(methodOverride("_method"));
 
 // 一覧画面のルーティング
 app.get("/", async (req, res) => {
@@ -47,6 +49,23 @@ app.get("/books/:id", async (req, res) => {
     const { id } = req.params;
     const book = await Book.findById(id);
     res.render("books/show", { book });
+});
+
+// 編集画面へのルーティング
+app.get("/books/:id/edit", async (req, res) => {
+    const { id } = req.params;
+    const book = await Book.findById(id);
+    res.render("books/edit", { book });
+});
+
+// 編集機能
+app.put("/books/:id/edit", async (req, res) => {
+    const { id } = req.params;
+    const book = await Book.findByIdAndUpdate(id, {
+        name: req.body.book.name,
+        author: req.body.book.author
+    });
+    res.redirect(`/books/${book._id}`);
 });
 
 app.listen(PORT, () => {
