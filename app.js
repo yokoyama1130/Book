@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = 8081;
 const Book = require("./models/books");
+const path = require("path");
 
 const mongoose = require("mongoose");
 
@@ -15,6 +16,7 @@ mongoose.connect('mongodb://localhost:27017/books')
     });
 
 app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 // 一覧画面のルーティング
 app.get("/", async (req, res) => {
