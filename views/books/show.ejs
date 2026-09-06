@@ -12,5 +12,8 @@
     </div>
     <a href="/">一覧画面に戻る</a>
     <a href="/books/<%= book._id %>/edit">編集する</a>
+    <form action="/books/<%= book._id %>/delete?_method=delete" method="post">
+        <button>削除する</button>
+    </form>
 </body>
 </html>

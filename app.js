@@ -68,6 +68,13 @@ app.put("/books/:id/edit", async (req, res) => {
     res.redirect(`/books/${book._id}`);
 });
 
+// 削除
+app.delete("/books/:id/delete", async (req, res) => {
+    const { id } = req.params;
+    await Book.findByIdAndDelete(id);
+    res.redirect("/");
+})
+
 app.listen(PORT, () => {
     console.log("ポート8081でサーバー起動");
 });
