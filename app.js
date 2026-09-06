@@ -13,6 +13,12 @@ mongoose.connect('mongodb://localhost:27017/books')
         console.error(err);
     });
 
+app.set("view engine", "ejs");
+
+app.get("/", (req, res) => {
+    res.send("確認");
+});
+
 app.listen(PORT, () => {
     console.log("ポート8081でサーバー起動");
 });
