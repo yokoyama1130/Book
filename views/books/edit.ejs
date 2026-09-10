@@ -1,23 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>編集画面</title>
-</head>
-<body>
-    <h1>編集画面</h1>
-    <form action="/books/<%= book._id %>/edit?_method=put" method="post">
-        <div>
-            <label for="name">題名</label>
-            <input type="text" name="book[name]" id="name" value="<%= book.name %>">
-        </div>
-        <div>
-            <label for="author">著者</label>
-            <input type="text" name="book[author]" id="author" value="<%= book.author %>">
-        </div>
-        <button>編集する</button>
-    </form>
-    
-</body>
-</html>
+<%- include('../partials/head', { title: '本を編集' }) %>
+<div class="page-top"><a class="back" href="/books/<%= book._id %>">← 詳細に戻る</a><p class="eyebrow">EDIT BOOK</p><h1>本の記録を<br><em>整える。</em></h1><p>読書が進んだら、状態やメモを更新しましょう。</p></div>
+<form class="book-form" action="/books/<%= book._id %>?_method=PUT" method="post">
+    <%- include('../partials/form', { book, statuses, genres, errors }) %>
+    <div class="form-actions"><a class="text-link" href="/books/<%= book._id %>">キャンセル</a><button class="button" type="submit">変更を保存する</button></div>
+</form>
+<%- include('../partials/foot') %>

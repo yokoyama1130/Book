@@ -1,13 +1,16 @@
 {
   "name": "book",
   "version": "1.0.0",
-  "description": "",
+  "description": "読書を記録・管理するシンプルな本棚アプリ",
   "license": "ISC",
   "author": "",
   "type": "commonjs",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "dev": "node --watch app.js",
+    "seed": "node seeds/index.js",
+    "test": "node --test"
   },
   "dependencies": {
     "ejs": "^6.0.1",

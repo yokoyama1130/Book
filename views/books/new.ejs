@@ -1,23 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新規登録画面</title>
-</head>
-<body>
-    <h1>本新規登録画面</h1>
-    <form action="/book/new" method="post">
-        <div>
-            <label for="name">題名</label>
-            <input type="text" name="book[name]" id="name">
-        </div>
-        <div>
-            <label for="author">著者</label>
-            <input type="text" name="book[author]" id="author">
-        </div>
-        <button>登録</button>
-    </form>
-    
-</body>
-</html>
+<%- include('../partials/head', { title: '本を追加' }) %>
+<div class="page-top"><a class="back" href="/books">← 本棚に戻る</a><p class="eyebrow">NEW BOOK</p><h1>新しい一冊を<br><em>本棚へ。</em></h1><p>今の気持ちも一緒に記録しておきましょう。</p></div>
+<form class="book-form" action="/books" method="post">
+    <%- include('../partials/form', { book, statuses, genres, errors }) %>
+    <div class="form-actions"><a class="text-link" href="/books">キャンセル</a><button class="button" type="submit">本棚に追加する</button></div>
+</form>
+<%- include('../partials/foot') %>

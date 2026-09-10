@@ -1,19 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本一覧ページ</title>
-</head>
-<body>
-    <h1>本一覧ページ</h1>
-    <a href="/new">新規登録</a>
-    <ul>
-        <% for (let book of books) { %>
-            <li>
-                <a href="/books/<%= book._id %>"><%= book.name %></a>
-            </li>
-        <% } %>
-    </ul>
-</body>
-</html>
+<%- include('../partials/head', { title: 'わたしの本棚' }) %>
+<section class="hero">
+    <div><p class="eyebrow">MY READING LIBRARY</p><h1>物語との出会いを、<br><em>育てていく。</em></h1><p class="hero-copy">読みたい本も、心に残った一冊も。あなたの読書の記憶をここに集めよう。</p></div>
+    <div class="hero-orbit" aria-hidden="true"><span>読む</span><span>記す</span><span>残す</span></div>
+</section>
+<% if (notice) { %><div class="alert alert-success"><%= notice %></div><% } %>
+<section class="stats" aria-label="読書統計">
+    <div><strong><%= stats.total %></strong><span>すべての本</span></div><div><strong><%= stats.reading %></strong><span>読書中</span></div><div><strong><%= stats.finished %></strong><span>読了</span></div><div><strong><%= stats.favorites %></strong><span>お気に入り</span></div>
+</section>
+<section class="library-heading">
+    <div><p class="eyebrow">COLLECTION</p><h2>本棚</h2></div>
+    <form class="filters" action="/books" method="get">
+        <label class="search"><span>⌕</span><input name="q" value="<%= filters.q %>" placeholder="タイトル・著者・メモから検索"></label>
+        <select name="status" aria-label="ステータスで絞り込む" onchange="this.form.submit()"><option value="">すべての状態</option><% statuses.forEach(status => { %><option value="<%= status %>" <%= filters.status === status ? 'selected' : '' %>><%= status %></option><% }) %></select>
+        <button class="button button-dark">検索</button>
+    </form>
+</section>
+<% if (books.length) { %>
+<div class="book-grid">
+    <% books.forEach((book, index) => { %><article class="book-card" style="--delay:<%= Math.min(index, 8) * 50 %>ms">
+        <a href="/books/<%= book._id %>" class="book-cover cover-<%= index % 5 %>"><% if (book.favorite) { %><span class="favorite" aria-label="お気に入り">♥</span><% } %><span class="cover-genre"><%= book.genre || 'BOOK' %></span><strong><%= book.name %></strong><small><%= book.author %></small></a>
+        <div class="book-meta"><span class="status status-<%= book.status === '読了' ? 'done' : book.status === '読書中' ? 'reading' : 'unread' %>"><%= book.status || '未読' %></span><% if (book.rating) { %><span class="rating" aria-label="5点中<%= book.rating %>点"><%= '★'.repeat(book.rating) %><%= '☆'.repeat(5-book.rating) %></span><% } %></div>
+    </article><% }) %>
+</div>
+<% } else { %><div class="empty-state"><div>＋</div><h3><%= filters.q || filters.status ? '条件に合う本がありません' : '最初の一冊を追加しましょう' %></h3><p>本を登録すると、ここにあなたの本棚が育っていきます。</p><a class="button" href="/books/new">本を追加する</a></div><% } %>
+<%- include('../partials/foot') %>

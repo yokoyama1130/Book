@@ -1,0 +1,11 @@
+<% if (errors.length) { %><div class="alert alert-error" role="alert"><strong>入力内容を確認してください</strong><ul><% errors.forEach(error => { %><li><%= error %></li><% }) %></ul></div><% } %>
+<div class="form-grid">
+    <label class="field field-wide"><span>タイトル <b>必須</b></span><input name="book[name]" value="<%= book.name || '' %>" required maxlength="120" placeholder="例：夜と霧" autofocus></label>
+    <label class="field field-wide"><span>著者 <b>必須</b></span><input name="book[author]" value="<%= book.author || '' %>" required maxlength="80" placeholder="例：V・E・フランクル"></label>
+    <label class="field"><span>ジャンル</span><select name="book[genre]"><% genres.forEach(genre => { %><option value="<%= genre %>" <%= (book.genre || 'その他') === genre ? 'selected' : '' %>><%= genre %></option><% }) %></select></label>
+    <label class="field"><span>読書ステータス</span><select name="book[status]"><% statuses.forEach(status => { %><option value="<%= status %>" <%= (book.status || '未読') === status ? 'selected' : '' %>><%= status %></option><% }) %></select></label>
+    <label class="field"><span>価格（円）</span><input type="number" name="book[price]" value="<%= book.price ?? '' %>" min="0" step="1" placeholder="1200"></label>
+    <label class="field"><span>評価</span><select name="book[rating]"><option value="">未評価</option><% [5,4,3,2,1].forEach(rating => { %><option value="<%= rating %>" <%= Number(book.rating) === rating ? 'selected' : '' %>><%= '★'.repeat(rating) %><%= '☆'.repeat(5-rating) %></option><% }) %></select></label>
+    <label class="field field-wide"><span>読書メモ</span><textarea name="book[comment]" maxlength="1000" rows="6" placeholder="心に残ったこと、次に読み返したい箇所など"><%= book.comment || '' %></textarea><small>最大1000文字</small></label>
+    <label class="check-field field-wide"><input type="checkbox" name="book[favorite]" <%= book.favorite === true || book.favorite === 'on' ? 'checked' : '' %>><span>お気に入りに追加する</span></label>
+</div>

@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>本の詳細ページ</title>
-</head>
-<body>
-    <h1>本の詳細ページ</h1>
-    <div>
-        <%= book.name %>
+<%- include('../partials/head', { title: book.name }) %>
+<% if (notice) { %><div class="alert alert-success"><%= notice %></div><% } %>
+<a class="back" href="/books">← 本棚に戻る</a>
+<article class="detail">
+    <div class="detail-cover"><span><%= book.genre || 'BOOK' %></span><h2><%= book.name %></h2><p><%= book.author %></p></div>
+    <div class="detail-content">
+        <div class="detail-labels"><span class="status status-<%= book.status === '読了' ? 'done' : book.status === '読書中' ? 'reading' : 'unread' %>"><%= book.status || '未読' %></span><% if (book.favorite) { %><span class="favorite-label">♥ お気に入り</span><% } %></div>
+        <p class="eyebrow">BOOK DETAIL</p><h1><%= book.name %></h1><p class="detail-author"><%= book.author %></p>
+        <dl><div><dt>ジャンル</dt><dd><%= book.genre || 'その他' %></dd></div><div><dt>価格</dt><dd><%= book.price != null ? Number(book.price).toLocaleString('ja-JP') + '円' : '未登録' %></dd></div><div><dt>評価</dt><dd class="rating"><%= book.rating ? '★'.repeat(book.rating) + '☆'.repeat(5-book.rating) : '未評価' %></dd></div></dl>
+        <section class="memo"><h2>読書メモ</h2><p><%= book.comment || 'まだメモはありません。' %></p></section>
+        <div class="detail-actions"><a class="button" href="/books/<%= book._id %>/edit">編集する</a><button class="button button-danger" type="button" data-delete-open>削除</button></div>
     </div>
-    <a href="/">一覧画面に戻る</a>
-    <a href="/books/<%= book._id %>/edit">編集する</a>
-    <form action="/books/<%= book._id %>/delete?_method=delete" method="post">
-        <button>削除する</button>
-    </form>
-</body>
-</html>
+</article>
+<dialog id="delete-dialog"><h2>この本を削除しますか？</h2><p>「<%= book.name %>」の記録は元に戻せません。</p><div class="dialog-actions"><button class="button button-light" data-delete-close>キャンセル</button><form action="/books/<%= book._id %>?_method=DELETE" method="post"><button class="button button-danger">削除する</button></form></div></dialog>
+<%- include('../partials/foot') %>
